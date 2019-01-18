@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: make-trades-registry
+  labels:
+    app: make-trades-registry
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: make-trades-registry
+  template:
+    metadata:
+      labels:
+        app: make-trades-registry
+    spec:
+      terminationGracePeriodSeconds: 5
+      containers:
+      - name: make-trades-registry
+        image: "${ECR_ENDPOINT}/${CIRCLE_PROJECT_REPONAME}:v0.1.${CIRCLE_BUILD_NUM}"
+        resources:
+          requests:
+            memory: "100Mi"
+            cpu: "100m"
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
