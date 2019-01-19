@@ -81,7 +81,7 @@ func main() {
 			if len(s.Exchanges) == 0 {
 				glog.Errorf("main: snapshot is empty")
 			} else {
-				err := importer.SaveSymbolsSnapshots(time.Now().Unix(), &s)
+				err := importer.SaveSymbolsSnapshots(&s)
 				if err != nil {
 					glog.Errorf("main: cannot import snapshots for %d exchange(s) into the database due to error %s", len(s.Exchanges), err)
 					panic(err)

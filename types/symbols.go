@@ -2,11 +2,6 @@ package types
 
 // SymbolInfo type contains information about one symbol
 type SymbolInfo struct {
-	Year               int      `cql:"year"`
-	Month              int      `cql:"month"`
-	Day                int      `cql:"day"`
-	MarketID           int      `cql:"market_id"`
-	SnapshotTime       int64    `cql:"snapshot_time"`
 	Symbol             string   `json:"symbol" cql:"symbol"`
 	Status             string   `json:"status" cql:"status"`
 	BaseAsset          string   `json:"baseAsset" cql:"asset"`
@@ -19,8 +14,12 @@ type SymbolInfo struct {
 
 // ExchangeSymbols type contains information about symbols of an exchange
 type ExchangeSymbols struct {
-	Exchange string       `json:"name"`
-	Symbols  []SymbolInfo `json:"symbols"`
+	Year         int          `cql:"year"`
+	Month        int          `cql:"month"`
+	Day          int          `cql:"day"`
+	ExchangeID   int          `cql:"market_id"`
+	SnapshotTime int64        `cql:"snapshot_time"`
+	Symbols      []SymbolInfo `json:"symbols" cql:"symbols"`
 }
 
 // ExchangesSymbols type contains information about symbols of several exchanges

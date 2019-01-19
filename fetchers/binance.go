@@ -35,10 +35,24 @@ func (f *BinanceFetcher) FetchSymbols() (*types.ExchangeSymbols, error) {
 		glog.Errorf("BinanceFetcher.FetchSymbols: cannot get symbols due to error %s", err)
 		return nil, err
 	}
-	r := types.ExchangeSymbols{
-		Exchange: "binance",
-		Symbols:  symbols,
+	exchangeID, err := GetExchangeID("binance")
+	if err != nil {
+		glog.Errorf("BinanceFetcher.FetchSymbols: cannot get exchangeID for 'binance' due to error %s", err)
+		return nil, err
 	}
+	r := types.ExchangeSymbols{
+		ExchangeID:   exchangeID,
+		SnapshotTime: time.Now().UnixNano() / int64(time.Millisecond),
+		Symbols:      symbols,
+	}
+
+	year, month, day := GetYearMonthDay(r.SnapshotTime)
+	glog.V(1).Infof("BinanceFetcher.FetchSymbols: year: %d, month: %d, day: %d", year, month, day)
+
+	r.Year = year
+	r.Month = month
+	r.Day = day
+
 	return &r, nil
 }
 
