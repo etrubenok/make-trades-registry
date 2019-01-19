@@ -1,5 +1,7 @@
 package types
 
+import "fmt"
+
 // SymbolInfo type contains information about one symbol
 type SymbolInfo struct {
 	Symbol             string   `json:"symbol" cql:"symbol"`
@@ -25,4 +27,14 @@ type ExchangeSymbols struct {
 // ExchangesSymbols type contains information about symbols of several exchanges
 type ExchangesSymbols struct {
 	Exchanges []ExchangeSymbols `json:"exchanges"`
+}
+
+// GetExchangeNameByID converts exchangeID into exchange name
+func GetExchangeNameByID(exchangeID int) (string, error) {
+	switch exchangeID {
+	case 1:
+		return "binance", nil
+	default:
+		return "", fmt.Errorf("GetExchangeNameByID does not know exchange with ID: %d", exchangeID)
+	}
 }

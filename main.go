@@ -39,7 +39,12 @@ func GetLatestSymbolsSnapshot(exchanges []string) (*types.ExchangesSymbols, erro
 		glog.Errorf("GetLatestSymbolsSnapshot: LoadSymbolsSnapshots failed to load the symbols for exchnages %v due to error %s", exchanges, err)
 		return nil, err
 	}
-	return exchangesSymbols, nil
+	resp, err := types.ConvertExchangeSymbolsToAPIResponse(exchangesSymbols)
+	if err != nil {
+		glog.Errorf("ConvertExchangeSymbolsToAPIResponse: cannot convert to API response due to error %s", err)
+		return nil, err
+	}
+	return resp, nil
 }
 
 func getSymbols(c *gin.Context) {
