@@ -3,7 +3,6 @@ package main
 import (
 	"context"
 	"flag"
-	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -19,21 +18,28 @@ import (
 	"github.com/gocql/gocql"
 )
 
+var session *gocql.Session
+
 // GetLatestSymbolsSnapshot gets the latest available snapshot about the input
 // exchanges or all of them if the input slice 'exchanges' is empty
 func GetLatestSymbolsSnapshot(exchanges []string) (*types.ExchangesSymbols, error) {
-	// for _, e := range exchanges {
-	// 	f, err := fetchers.FetcherFactory(e)
-	// 	if err != nil {
-	// 		glog.Errorf("GetLatestSymbolsSnapshot: cannot get a fetcher for exchange '%s' due to error %s", e, err)
-	// 		return nil, err
-	// 	}
-	// 	exchangeSymbols, err := f.FetchSymbols()
-	// 	if err != nil {
-	// 		glog.Errorf("GetLatestSymbolsSnapshot: cannot fetch symbols from the ")
-	// 	}
-	// }
-	return nil, fmt.Errorf("not implem ented yet")
+
+	exchnageIDs := make([]int, 0)
+	for _, e := range exchanges {
+		exchangeID, err := fetchers.GetExchangeID(e)
+		if err != nil {
+			glog.Errorf("GetLatestSymbolsSnapshot: cannot get exchange id for exchange '%s' due to error %s", e, err)
+			return nil, err
+		}
+		exchnageIDs = append(exchnageIDs, exchangeID)
+	}
+	l := NewDBLoader(session)
+	exchangesSymbols, err := l.LoadSymbolsSnapshots(exchnageIDs)
+	if err != nil {
+		glog.Errorf("GetLatestSymbolsSnapshot: LoadSymbolsSnapshots failed to load the symbols for exchnages %v due to error %s", exchanges, err)
+		return nil, err
+	}
+	return exchangesSymbols, nil
 }
 
 func getSymbols(c *gin.Context) {
@@ -46,7 +52,7 @@ func getSymbols(c *gin.Context) {
 	if err != nil {
 		glog.Errorf("getSymbols: cannot get symbols due to error %s", err)
 	}
-	c.JSON(http.StatusForbidden, symbolsSnapshot)
+	c.JSON(http.StatusOK, symbolsSnapshot)
 }
 
 func main() {
@@ -62,7 +68,8 @@ func main() {
 		Min:        10 * time.Millisecond,
 		Max:        2 * time.Second}
 
-	session, err := cluster.CreateSession()
+	var err error
+	session, err = cluster.CreateSession()
 	if err != nil {
 		glog.Errorf("main: cannot create a session to the DB due to error %s", err)
 		panic(err)
