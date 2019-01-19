@@ -32,7 +32,7 @@ func (d *DBImporterImpl) SaveSymbolsSnapshots(snapshots *types.ExchangesSymbols)
 	for _, e := range snapshots.Exchanges {
 		err := d.SaveSymbols(&e)
 		if err != nil {
-			glog.Errorf("SaveSymbolsSnapshots: cannot save symbols of exchange id '%d' into DB due to error %s", e, e.ExchangeID, err)
+			glog.Errorf("SaveSymbolsSnapshots: cannot save symbols of exchange id '%d' into DB due to error %s", e.ExchangeID, err)
 			return err
 		}
 	}

@@ -12,7 +12,7 @@ RUN rm -rf /go/src/github.com/etrubenok/$SERVICE/vendor
 RUN eval "$(ssh-agent -s)" && \
     ssh-add /etrubenok-beewave-bitbucket && \
     dep ensure -v
-RUN go test
+RUN go test ./...
 RUN CGO_ENABLED=1 GOOS=linux go build -a -installsuffix cgo -tags static_all -ldflags '-extldflags "-static"' -o $GOPATH/bin/main .
 
 FROM scratch
