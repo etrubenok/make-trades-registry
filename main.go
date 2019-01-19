@@ -51,6 +51,8 @@ func getSymbols(c *gin.Context) {
 	symbolsSnapshot, err := GetLatestSymbolsSnapshot(exchanges)
 	if err != nil {
 		glog.Errorf("getSymbols: cannot get symbols due to error %s", err)
+		c.JSON(http.StatusBadGateway, gin.H{"error": "server error"})
+		return
 	}
 	c.JSON(http.StatusOK, symbolsSnapshot)
 }
