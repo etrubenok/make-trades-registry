@@ -100,7 +100,7 @@ func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int) (*types.Exchanges
 // LoadSymbols loads the latest snapshot of symbols for a given exchnage from DB
 func (l *DBLoaderImpl) LoadSymbols(year, month, day, exchangeID int) (*types.ExchangeSymbols, error) {
 	var symbols types.ExchangeSymbols
-	stmt, names := qb.Select("maketrades.symbols_snapshots").Where(qb.Eq("year"), qb.Eq("month"), qb.Eq("day"), qb.Eq("exchnage_id")).OrderBy("snaphost_time", qb.DESC).Limit(1).ToCql()
+	stmt, names := qb.Select("maketrades.symbols_snapshots").Where(qb.Eq("year"), qb.Eq("month"), qb.Eq("day"), qb.Eq("exchange_id")).OrderBy("snaphost_time", qb.DESC).Limit(1).ToCql()
 	q := gocqlx.Query(session.Query(stmt), names).BindMap(qb.M{
 		"year": year, "month": month, "day": day, "exchange_id": exchangeID,
 	})
