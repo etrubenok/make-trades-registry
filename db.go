@@ -94,7 +94,7 @@ func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int) (*types.Exchanges
 		}
 		r.Exchanges = append(r.Exchanges, *symbols)
 	}
-	return nil, nil
+	return &r, nil
 }
 
 // LoadSymbols loads the latest snapshot of symbols for a given exchnage from DB
