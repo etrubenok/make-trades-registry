@@ -44,7 +44,7 @@ func (d *DBImporterImpl) SaveSymbols(exchangeSymbols *types.ExchangeSymbols) err
 	stmt, names := qb.Insert("maketrades.symbols_snapshots").Columns("year",
 		"month",
 		"day",
-		"market_id",
+		"exchange_id",
 		"snapshot_time",
 		"symbols").ToCql()
 	query := gocqlx.Query(d.session.Query(stmt), names).BindStruct(exchangeSymbols)

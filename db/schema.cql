@@ -10,9 +10,9 @@ CREATE TYPE maketrades.symbol_info(symbol text,
 CREATE TABLE maketrades.symbols_snapshots(year int,
     month int,
     day int,
-    market_id int,
+    exchange_id int,
     snapshot_time timestamp,
     symbols list<FROZEN<maketrades.symbol_info>>,
-    PRIMARY KEY ((year, month, day, market_id), snapshot_time)
+    PRIMARY KEY ((year, month, day, exchange_id), snapshot_time)
 )
 WITH CLUSTERING ORDER BY (snapshot_time DESC);

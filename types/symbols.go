@@ -17,7 +17,7 @@ type ExchangeSymbols struct {
 	Year         int          `cql:"year"`
 	Month        int          `cql:"month"`
 	Day          int          `cql:"day"`
-	ExchangeID   int          `cql:"market_id"`
+	ExchangeID   int          `cql:"exchange_id"`
 	SnapshotTime int64        `cql:"snapshot_time"`
 	Symbols      []SymbolInfo `json:"symbols" cql:"symbols"`
 }
