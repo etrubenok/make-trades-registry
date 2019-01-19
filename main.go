@@ -22,7 +22,7 @@ var session *gocql.Session
 
 // GetLatestSymbolsSnapshot gets the latest available snapshot about the input
 // exchanges or all of them if the input slice 'exchanges' is empty
-func GetLatestSymbolsSnapshot(exchanges []string) (*types.ExchangesSymbols, error) {
+func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, error) {
 
 	exchnageIDs := make([]int, 0)
 	for _, e := range exchanges {
