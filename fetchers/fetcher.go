@@ -58,7 +58,7 @@ func NewFetchJob() FetchJob {
 // Init initialises the fetch job with the list of exchanges
 func (j *FetchJobImpl) Init(exchanges []string, results chan<- types.ExchangesSymbols) {
 	j.exchanges = exchanges
-	j.ticker = time.NewTicker(5 * time.Minute)
+	j.ticker = time.NewTicker(30 * time.Minute)
 	go j.FetchExchangesSymbols(results)
 }
 

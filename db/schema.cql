@@ -5,7 +5,7 @@ CREATE TYPE maketrades.symbol_info(symbol text,
     quote text,
     quote_precision bigint,
     order_types list<text>,
-    iceberg_allowed int);
+    iceberg_allowed boolean);
 
 CREATE TABLE maketrades.symbols_snapshots(year int,
     month int,
