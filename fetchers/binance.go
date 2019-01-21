@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/etrubenok/make-trades-registry/types"
+	"github.com/etrubenok/make-trades-types/registry"
 	"github.com/golang/glog"
 )
 
@@ -35,7 +36,7 @@ func (f *BinanceFetcher) FetchSymbols() (*types.ExchangeSymbols, error) {
 		glog.Errorf("BinanceFetcher.FetchSymbols: cannot get symbols due to error %s", err)
 		return nil, err
 	}
-	exchangeID, err := GetExchangeID("binance")
+	exchangeID, err := registry.GetExchangeID("binance")
 	if err != nil {
 		glog.Errorf("BinanceFetcher.FetchSymbols: cannot get exchangeID for 'binance' due to error %s", err)
 		return nil, err

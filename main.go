@@ -12,6 +12,7 @@ import (
 
 	"github.com/etrubenok/make-trades-registry/fetchers"
 	"github.com/etrubenok/make-trades-registry/types"
+	"github.com/etrubenok/make-trades-types/registry"
 	"github.com/gin-gonic/gin"
 	"github.com/golang/glog"
 
@@ -35,7 +36,7 @@ func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, e
 
 	exchnageIDs := make([]int, 0)
 	for _, e := range exchanges {
-		exchangeID, err := fetchers.GetExchangeID(e)
+		exchangeID, err := registry.GetExchangeID(e)
 		if err != nil {
 			glog.Errorf("GetLatestSymbolsSnapshot: cannot get exchange id for exchange '%s' due to error %s", e, err)
 			return nil, err

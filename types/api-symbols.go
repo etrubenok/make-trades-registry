@@ -3,6 +3,7 @@ package types
 import (
 	"strings"
 
+	"github.com/etrubenok/make-trades-types/registry"
 	"github.com/golang/glog"
 )
 
@@ -43,7 +44,7 @@ func ConvertExchangeSymbolsToAPIResponse(exchangesSymbols *ExchangesSymbols) (*A
 }
 
 func convertExchangeSymbols(exchangeSymbols *ExchangeSymbols) (*APIExchangeSymbols, error) {
-	exchange, err := GetExchangeNameByID(exchangeSymbols.ExchangeID)
+	exchange, err := registry.GetExchangeNameByID(exchangeSymbols.ExchangeID)
 	if err != nil {
 		glog.Errorf("convertExchangeSymbols: cannot get exchange name by id '%d' due to error %s",
 			exchangeSymbols.ExchangeID, err)

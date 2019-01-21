@@ -15,14 +15,6 @@ func GetYearMonthDay(timestamp int64) (int, int, int) {
 	return t.Year(), int(t.Month()), t.Day()
 }
 
-// GetExchangeID returns the id for the given exchange name
-func GetExchangeID(exchange string) (int, error) {
-	if exchange == "binance" {
-		return 1, nil
-	}
-	return 0, fmt.Errorf("GetExchangeID: exchange: '%s' is not known", exchange)
-}
-
 // Fetcher is the interface for all the fetchers
 type Fetcher interface {
 	FetchSymbols() (*types.ExchangeSymbols, error)

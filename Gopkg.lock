@@ -10,6 +10,14 @@
   version = "v1.1.1"
 
 [[projects]]
+  digest = "1:556646277bc1d492dd6a851ab220dff154964331b6b25844f2695ff285480e2e"
+  name = "github.com/etrubenok/make-trades-types"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "43bae8fc8725bc81466250c96c292e27e456385f"
+  version = "0.1.14"
+
+[[projects]]
   branch = "master"
   digest = "1:36fe9527deed01d2a317617e59304eb2c4ce9f8a24115bcc5c2e37b3aee5bae4"
   name = "github.com/gin-contrib/sse"
@@ -179,6 +187,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/etrubenok/make-trades-types",
     "github.com/gin-gonic/gin",
     "github.com/gocql/gocql",
     "github.com/golang/glog",
