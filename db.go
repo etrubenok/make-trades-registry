@@ -88,9 +88,17 @@ func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int) (*types.Exchanges
 
 	for _, e := range exchangeIDs {
 		symbols, err := l.LoadSymbols(year, month, day, e)
-		if err != nil {
+		if err != nil && err.Error() != "not found" {
 			glog.Errorf("LoadSymbolsSnapshots: cannot load symbols of exchange id '%d' from DB due to error %s", e, err)
 			return nil, err
+		}
+		if err.Error() == "not found" {
+			year, month, day = GetPreviousDate(time.Now())
+			symbols, err = l.LoadSymbols(year, month, day, e)
+			if err != nil {
+				glog.Errorf("LoadSymbolsSnapshots: cannot load symbols of exchange id '%d' from DB for the previous date neighter due to error %s", e, err)
+				return nil, err
+			}
 		}
 		r.Exchanges = append(r.Exchanges, *symbols)
 	}

@@ -20,6 +20,15 @@ import (
 
 var session *gocql.Session
 
+// GetPreviousDate returns year, month, day of the previous day from the currentTime
+func GetPreviousDate(currentTime time.Time) (int, int, int) {
+	t := currentTime.AddDate(0, 0, -1).UnixNano() / int64(time.Millisecond)
+	year, month, day := fetchers.GetYearMonthDay(t)
+	glog.Infof("GetPreviousDate: previous day (year: %d, month: %d, day: %d)",
+		year, month, day)
+	return year, month, day
+}
+
 // GetLatestSymbolsSnapshot gets the latest available snapshot about the input
 // exchanges or all of them if the input slice 'exchanges' is empty
 func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, error) {
