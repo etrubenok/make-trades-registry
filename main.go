@@ -57,11 +57,19 @@ func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, e
 	return resp, nil
 }
 
+// GetAllExchanges returns all the supported exchanges
+func GetAllExchanges() []string {
+	return []string{"binance"}
+}
+
 func getSymbols(c *gin.Context) {
 	filter := c.Request.URL.Query().Get("exchanges")
 	exchanges := []string{}
 	if filter != "" {
 		exchanges = strings.Split(filter, "@")
+	}
+	if filter == "" {
+		exchanges = GetAllExchanges()
 	}
 	symbolsSnapshot, err := GetLatestSymbolsSnapshot(exchanges)
 	if err != nil {
