@@ -3,7 +3,6 @@ package main
 import (
 	"time"
 
-	"github.com/etrubenok/make-trades-registry/fetchers"
 	"github.com/gocql/gocql"
 	"github.com/golang/glog"
 
@@ -61,7 +60,7 @@ func (d *DBImporterImpl) SaveSymbols(exchangeSymbols *types.ExchangeSymbols) err
 
 // DBLoader is an interface for the DB reading operations
 type DBLoader interface {
-	LoadSymbolsSnapshots(exchangeIDs []int) (*types.ExchangesSymbols, error)
+	LoadSymbolsSnapshots(exchangeIDs []int, getDate func() (int, int, int, error)) (*types.ExchangesSymbols, error)
 }
 
 // DBLoaderImpl is an implementation of DBLoader interface
@@ -77,13 +76,15 @@ func NewDBLoader(session *gocql.Session) DBLoader {
 }
 
 // LoadSymbolsSnapshots loads the symbols for the exchangeIDs
-func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int) (*types.ExchangesSymbols, error) {
+func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int, getDate func() (int, int, int, error)) (*types.ExchangesSymbols, error) {
 	r := types.ExchangesSymbols{
 		Exchanges: make([]types.ExchangeSymbols, 0),
 	}
-	t := time.Now().UnixNano() / int64(time.Millisecond)
-	year, month, day := fetchers.GetYearMonthDay(t)
-	// TODO: if a new day the snapshot may be missing - need to be taken from the previous day
+	year, month, day, err := getDate()
+	if err != nil {
+		glog.Errorf("LoadSymbolsSnapshots: cannot get year, month and day due to error '%s'", err)
+		return nil, err
+	}
 	glog.V(1).Infof("LoadSymbolsSnapshots.FetchSymbols: year: %d, month: %d, day: %d", year, month, day)
 
 	for _, e := range exchangeIDs {
@@ -93,6 +94,7 @@ func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int) (*types.Exchanges
 			return nil, err
 		}
 		if err != nil && err.Error() == "not found" {
+			// TODO: GetPreviousDate(time.Now()) potentially an issue in the logic: now is not always correlates with year, month, day
 			year, month, day = GetPreviousDate(time.Now())
 			symbols, err = l.LoadSymbols(year, month, day, e)
 			if err != nil {

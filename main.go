@@ -30,9 +30,18 @@ func GetPreviousDate(currentTime time.Time) (int, int, int) {
 	return year, month, day
 }
 
-// GetLatestSymbolsSnapshot gets the latest available snapshot about the input
-// exchanges or all of them if the input slice 'exchanges' is empty
-func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, error) {
+// GetYearMonthDay returns year, month and day for a given date in format 'yyyy-mm-dd'
+func GetYearMonthDay(yyyymmddDate string) (int, int, int, error) {
+	t, err := time.Parse("2006-01-02", yyyymmddDate)
+	if err != nil {
+		glog.Errorf("GetYearMonthDay: cannot parse date string in format 'yyyy-mm-dd' (%s) due to error %s", yyyymmddDate, err)
+		return 0, 0, 0, err
+	}
+	return t.Year(), int(t.Month()), t.Day(), nil
+}
+
+// GetSymbolsSnapshot gets symbols snapshot on a date
+func GetSymbolsSnapshot(exchanges []string, getDate func() (int, int, int, error)) (*types.APIExchangesSymbols, error) {
 
 	exchnageIDs := make([]int, 0)
 	for _, e := range exchanges {
@@ -44,7 +53,8 @@ func GetLatestSymbolsSnapshot(exchanges []string) (*types.APIExchangesSymbols, e
 		exchnageIDs = append(exchnageIDs, exchangeID)
 	}
 	l := NewDBLoader(session)
-	exchangesSymbols, err := l.LoadSymbolsSnapshots(exchnageIDs)
+	exchangesSymbols, err := l.LoadSymbolsSnapshots(exchnageIDs, getDate)
+
 	if err != nil {
 		glog.Errorf("GetLatestSymbolsSnapshot: LoadSymbolsSnapshots failed to load the symbols for exchnages %v due to error %s", exchanges, err)
 		return nil, err
@@ -71,9 +81,32 @@ func getSymbols(c *gin.Context) {
 	if filter == "" {
 		exchanges = GetAllExchanges()
 	}
-	symbolsSnapshot, err := GetLatestSymbolsSnapshot(exchanges)
+
+	date := c.Request.URL.Query().Get("date")
+	var symbolsSnapshot *types.APIExchangesSymbols
+	var err error
+	if date != "" {
+		symbolsSnapshot, err = GetSymbolsSnapshot(exchanges, func() (int, int, int, error) {
+			year, month, day, err := GetYearMonthDay(date)
+			if err != nil {
+				glog.Errorf("getSymbols: cannot get year, month and day from string 'yyyy-mm-dd'(%s) due to error '%s'",
+					date, err)
+				return 0, 0, 0, nil
+			}
+			return year, month, day, nil
+		})
+	} else {
+		symbolsSnapshot, err = GetSymbolsSnapshot(exchanges, func() (int, int, int, error) {
+			t := time.Now().UnixNano() / int64(time.Millisecond)
+			year, month, day := fetchers.GetYearMonthDay(t)
+			return year, month, day, nil
+		})
+	}
 	if err != nil {
-		glog.Errorf("getSymbols: cannot get symbols due to error %s", err)
+		glog.Errorf("getSymbols: cannot get symbols for exchanges '%v' and date '%s' due to error '%s'",
+			exchanges,
+			date,
+			err)
 		c.JSON(http.StatusBadGateway, gin.H{"error": "server error"})
 		return
 	}
