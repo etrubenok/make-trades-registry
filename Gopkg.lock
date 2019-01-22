@@ -10,9 +10,9 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:556646277bc1d492dd6a851ab220dff154964331b6b25844f2695ff285480e2e"
+  digest = "1:8b1ff39615f20bb9a71f423ae9d876a3da1e90f90b33e4fad8c10cef85793f7f"
   name = "github.com/etrubenok/make-trades-types"
-  packages = ["."]
+  packages = ["registry"]
   pruneopts = "UT"
   revision = "43bae8fc8725bc81466250c96c292e27e456385f"
   version = "0.1.14"
@@ -187,7 +187,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
-    "github.com/etrubenok/make-trades-types",
+    "github.com/etrubenok/make-trades-types/registry",
     "github.com/gin-gonic/gin",
     "github.com/gocql/gocql",
     "github.com/golang/glog",
