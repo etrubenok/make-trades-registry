@@ -69,7 +69,7 @@ func GetSymbolsSnapshot(exchanges []string, getDate func() (int, int, int, error
 
 // GetAllExchanges returns all the supported exchanges
 func GetAllExchanges() []string {
-	return []string{"binance"}
+	return []string{"binance", "bitfinex"}
 }
 
 func getSymbols(c *gin.Context) {

@@ -25,6 +25,8 @@ func FetcherFactory(exchange string) (Fetcher, error) {
 	switch exchange {
 	case "binance":
 		return NewBinanceFetcher(), nil
+	case "bitfinex":
+		return NewBitfinexFetcher(), nil
 	default:
 		return nil, fmt.Errorf("FetcherFactory: exchange '%s' is not supported", exchange)
 	}

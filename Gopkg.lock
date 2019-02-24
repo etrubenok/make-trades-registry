@@ -2,6 +2,17 @@
 
 
 [[projects]]
+  branch = "master"
+  digest = "1:8fd6aaa9e87e61152283b2c4533ff5eb8d19d8f24454e8818774490060130d11"
+  name = "github.com/bitfinexcom/bitfinex-api-go"
+  packages = [
+    "utils",
+    "v1",
+  ]
+  pruneopts = "UT"
+  revision = "286a8310973258e9b33e66475f38697f83e813c0"
+
+[[projects]]
   digest = "1:ffe9824d294da03b391f44e1ae8281281b4afc1bdaa9588c9097785e3af10cec"
   name = "github.com/davecgh/go-spew"
   packages = ["spew"]
@@ -74,6 +85,14 @@
   packages = ["."]
   pruneopts = "UT"
   revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
+
+[[projects]]
+  digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
+  name = "github.com/gorilla/websocket"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "66b9c49e59c6c48f0ffce28c2d8b8a5678502c6d"
+  version = "v1.4.0"
 
 [[projects]]
   branch = "master"
@@ -187,6 +206,7 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/bitfinexcom/bitfinex-api-go/v1",
     "github.com/etrubenok/make-trades-types/registry",
     "github.com/gin-gonic/gin",
     "github.com/gocql/gocql",

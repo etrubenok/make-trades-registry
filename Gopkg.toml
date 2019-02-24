@@ -36,3 +36,7 @@
 [[constraint]]
   name = "github.com/etrubenok/make-trades-types"
   version = "0.1.14"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/bitfinexcom/bitfinex-api-go"
