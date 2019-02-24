@@ -21,20 +21,20 @@
   version = "v1.1.1"
 
 [[projects]]
-  digest = "1:8b1ff39615f20bb9a71f423ae9d876a3da1e90f90b33e4fad8c10cef85793f7f"
+  digest = "1:dcffe82f1a209e8deaad0d3d5fe1009652c826c981da0be90e0f933af387d1ec"
   name = "github.com/etrubenok/make-trades-types"
   packages = ["registry"]
   pruneopts = "UT"
-  revision = "43bae8fc8725bc81466250c96c292e27e456385f"
-  version = "0.1.14"
+  revision = "37251bc80f40a89088f1aecb73736e5a08ec6490"
+  version = "0.1.20"
 
 [[projects]]
   branch = "master"
-  digest = "1:36fe9527deed01d2a317617e59304eb2c4ce9f8a24115bcc5c2e37b3aee5bae4"
+  digest = "1:38f00d85208f9f51e51063b0b90687d72f3ad61a7b6135d3ab6cb21e7b68dff2"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
   pruneopts = "UT"
-  revision = "22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae"
+  revision = "a7658810eb745c2f22927282dea478278103a897"
 
 [[projects]]
   digest = "1:d5083934eb25e45d17f72ffa86cae3814f4a9d6c073c4f16b64147169b245606"
@@ -51,7 +51,7 @@
 
 [[projects]]
   branch = "master"
-  digest = "1:1a5f28249f1a5b118994359a1c7b8c53ee1ff47aa7fe65884fbd20cd237001f4"
+  digest = "1:5c9dc6cfa571ce91199f939012eae56f5d70fe86f28e2e14994bde27f0605a23"
   name = "github.com/gocql/gocql"
   packages = [
     ".",
@@ -60,7 +60,7 @@
     "internal/streams",
   ]
   pruneopts = "UT"
-  revision = "70385f88b28b43805bd83d212169ab2d38810b15"
+  revision = "ec4793573d1447b6f92a1b359a0594566fad9d0e"
 
 [[projects]]
   branch = "master"
@@ -79,12 +79,12 @@
   version = "v1.2.0"
 
 [[projects]]
-  branch = "master"
-  digest = "1:4a0c6bb4805508a6287675fac876be2ac1182539ca8a32468d8128882e9d5009"
+  digest = "1:e4f5819333ac698d294fe04dbf640f84719658d5c7ce195b10060cc37292ce79"
   name = "github.com/golang/snappy"
   packages = ["."]
   pruneopts = "UT"
-  revision = "2e65f85255dbc3072edf28d6b5b8efc472979f5a"
+  revision = "2a8bb927dd31d8daada140a5d09578521ce5c36a"
+  version = "v0.0.1"
 
 [[projects]]
   digest = "1:7b5c6e2eeaa9ae5907c391a91c132abfd5c9e8a784a341b5625e750c67e6825d"
@@ -111,12 +111,12 @@
   version = "v1.1.5"
 
 [[projects]]
-  digest = "1:0981502f9816113c9c8c4ac301583841855c8cf4da8c72f696b3ebedf6d0e4e5"
+  digest = "1:b5cf82c3199c040b82e2bb3fbcbcf6771c2759f9c6b839621b0714c822167581"
   name = "github.com/mattn/go-isatty"
   packages = ["."]
   pruneopts = "UT"
-  revision = "6ca4dbf54d38eea1a992b3c722a76a5d1c4cb25c"
-  version = "v0.0.4"
+  revision = "a6dda38a851a575e6799957cdd53ffe0b3fdd90f"
+  version = "v0.0.5"
 
 [[projects]]
   digest = "1:33422d238f147d247752996a26574ac48dcf472976eda7f5134015f06bf16563"
@@ -143,16 +143,23 @@
   version = "v1.0.0"
 
 [[projects]]
-  digest = "1:eea178dedce9c9cb061ad269ed1332f92109fa4af51ce296e6eb0ed20f3b6f35"
+  digest = "1:73964279c2fc01ba0d05bcdbfa2df12708fc56427d9d921fcc531394ac71106b"
+  name = "github.com/scylladb/go-reflectx"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "8e28c7b74629f55b19259fcd798953ee195ec4a4"
+  version = "v1.0.0"
+
+[[projects]]
+  digest = "1:f3d534ff980e95f944fe17f2eb73e0ae466f21b7fb8090d6d3d5d0f69325bdc3"
   name = "github.com/scylladb/gocqlx"
   packages = [
     ".",
     "qb",
-    "reflectx",
   ]
   pruneopts = "UT"
-  revision = "dcec9d031fb594a4bc470473d1c98d33656f93e6"
-  version = "v1.1.0"
+  revision = "2265c3fdbb459cd8bd014fbd074b54810955e301"
+  version = "v1.2.1"
 
 [[projects]]
   digest = "1:972c2427413d41a1e06ca4897e8528e5a1622894050e2f527b38ddf0f343f759"
@@ -163,20 +170,20 @@
   version = "v1.3.0"
 
 [[projects]]
-  digest = "1:03aa6e485e528acb119fb32901cf99582c380225fc7d5a02758e08b180cb56c3"
+  digest = "1:4887e9e89c80299aa520d718239809fdd2a47a9aa394909b169959bfbc424ddf"
   name = "github.com/ugorji/go"
   packages = ["codec"]
   pruneopts = "UT"
-  revision = "b4c50a2b199d93b13dc15e78929cfb23bfdf21ab"
-  version = "v1.1.1"
+  revision = "8fd0f8d918c8f0b52d0af210a812ba882cc31a1e"
+  version = "v1.1.2"
 
 [[projects]]
   branch = "master"
-  digest = "1:f6f6d9d6f80c9e32acc0f4f3b904e0b9f5b18a7757c2ef941121bd79a10e7bdf"
+  digest = "1:d0e9a312c4610a508569ab25e54d34600b1a96d19b1866ece104ffdf1c1b9d2c"
   name = "golang.org/x/sys"
   packages = ["unix"]
   pruneopts = "UT"
-  revision = "11f53e03133963fb11ae0588e08b5e0b85be8be5"
+  revision = "cd391775e71e684db52b63df9affd58269495083"
 
 [[projects]]
   digest = "1:cbc72c4c4886a918d6ab4b95e347ffe259846260f99ebdd8a198c2331cf2b2e9"
