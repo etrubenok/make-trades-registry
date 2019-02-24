@@ -21,6 +21,8 @@ import (
 
 var session *gocql.Session
 
+var exchanges = []string{"binance", "bitfinex"}
+
 // GetPreviousDate returns year, month, day of the previous day from the currentTime
 func GetPreviousDate(currentTime time.Time) (int, int, int) {
 	t := currentTime.AddDate(0, 0, -1).UnixNano() / int64(time.Millisecond)
@@ -69,7 +71,7 @@ func GetSymbolsSnapshot(exchanges []string, getDate func() (int, int, int, error
 
 // GetAllExchanges returns all the supported exchanges
 func GetAllExchanges() []string {
-	return []string{"binance", "bitfinex"}
+	return exchanges
 }
 
 func getSymbols(c *gin.Context) {
@@ -136,7 +138,7 @@ func main() {
 
 	snapshots := make(chan types.ExchangesSymbols)
 	job := fetchers.NewFetchJob()
-	job.Init([]string{"binance"}, snapshots)
+	job.Init(exchanges, snapshots)
 
 	importer := NewDBImporter(session)
 	go func() {

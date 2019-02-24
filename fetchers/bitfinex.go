@@ -30,7 +30,7 @@ func (f *BitfinexFetcher) FetchSymbols() (*types.ExchangeSymbols, error) {
 	}
 	exchangeID, err := registry.GetExchangeID("bitfinex")
 	if err != nil {
-		glog.Errorf("BitfinexFetcher.FetchSymbols: cannot get exchangeID for 'binance' due to error %s", err)
+		glog.Errorf("BitfinexFetcher.FetchSymbols: cannot get exchangeID for 'bitfinex' due to error %s", err)
 		return nil, err
 	}
 	r := types.ExchangeSymbols{
