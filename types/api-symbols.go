@@ -1,8 +1,6 @@
 package types
 
 import (
-	"strings"
-
 	"github.com/etrubenok/make-trades-types/registry"
 	"github.com/golang/glog"
 )
@@ -69,9 +67,9 @@ func convertExchangeSymbols(exchangeSymbols *ExchangeSymbols) (*APIExchangeSymbo
 
 func convertSymbolInfo(exchange string, symbolInfo *SymbolInfo) (*APISymbolInfo, error) {
 	s := APISymbolInfo{
-		Symbol: exchange + "-" + strings.ToLower(symbolInfo.Symbol),
-		Status: strings.ToLower(symbolInfo.Status),
-		Asset:  strings.ToLower(symbolInfo.BaseAsset),
-		Quote:  strings.ToLower(symbolInfo.QuoteAsset)}
+		Symbol: exchange + "-" + symbolInfo.Symbol,
+		Status: symbolInfo.Status,
+		Asset:  symbolInfo.BaseAsset,
+		Quote:  symbolInfo.QuoteAsset}
 	return &s, nil
 }
