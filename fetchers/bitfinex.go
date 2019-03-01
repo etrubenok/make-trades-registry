@@ -1,6 +1,8 @@
 package fetchers
 
 import (
+	"fmt"
+	"strings"
 	"time"
 
 	bitfinex "github.com/bitfinexcom/bitfinex-api-go/v1"
@@ -54,7 +56,7 @@ func (f *BitfinexFetcher) ConvertSymbols(pairs []bitfinex.Pair) ([]types.SymbolI
 	symbols := make([]types.SymbolInfo, 0)
 	for _, p := range pairs {
 		s := types.SymbolInfo{
-			Symbol:             p.Pair,
+			Symbol:             fmt.Sprintf("t%s", strings.ToUpper(p.Pair)),
 			BaseAssetPrecision: int64(p.PricePrecision),
 			QuotePrecision:     int64(p.PricePrecision)}
 		symbols = append(symbols, s)
