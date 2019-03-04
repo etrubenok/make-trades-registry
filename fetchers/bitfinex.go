@@ -54,11 +54,28 @@ func (f *BitfinexFetcher) FetchSymbols() (*types.ExchangeSymbols, error) {
 // ConvertSymbols converts Bitfinex pairs into the make trades symbols
 func (f *BitfinexFetcher) ConvertSymbols(pairs []bitfinex.Pair) ([]types.SymbolInfo, error) {
 	symbols := make([]types.SymbolInfo, 0)
+	fPairs := make(map[string]bool)
 	for _, p := range pairs {
 		s := types.SymbolInfo{
 			Symbol:             fmt.Sprintf("t%s", strings.ToUpper(p.Pair)),
 			BaseAssetPrecision: int64(p.PricePrecision),
 			QuotePrecision:     int64(p.PricePrecision)}
+		symbols = append(symbols, s)
+
+		if p.Margin {
+			// ASSUMPTION: pair name len is 6 and format is [one][two]
+			pair1 := fmt.Sprintf("f%s", strings.ToUpper(string([]byte(p.Pair)[3:])))
+			fPairs[pair1] = true
+
+			pair2 := fmt.Sprintf("f%s", strings.ToUpper(string([]byte(p.Pair)[:3])))
+			fPairs[pair2] = true
+		}
+	}
+	for k := range fPairs {
+		s := types.SymbolInfo{
+			Symbol:             k,
+			BaseAssetPrecision: int64(8),
+			QuotePrecision:     int64(8)}
 		symbols = append(symbols, s)
 	}
 	return symbols, nil
