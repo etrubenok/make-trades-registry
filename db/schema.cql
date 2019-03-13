@@ -1,4 +1,4 @@
-CREATE TYPE maketrades.symbol_info(symbol text,
+CREATE TYPE maketrades2.symbol_info(symbol text,
     status text,
     asset text,
     asset_precision bigint,
@@ -7,12 +7,12 @@ CREATE TYPE maketrades.symbol_info(symbol text,
     order_types list<text>,
     iceberg_allowed boolean);
 
-CREATE TABLE maketrades.symbols_snapshots(year int,
+CREATE TABLE maketrades2.symbols_snapshots(year int,
     month int,
     day int,
     exchange_id int,
     snapshot_time timestamp,
-    symbols list<FROZEN<maketrades.symbol_info>>,
+    symbols list<FROZEN<maketrades2.symbol_info>>,
     PRIMARY KEY ((year, month, day, exchange_id), snapshot_time)
 )
 WITH CLUSTERING ORDER BY (snapshot_time DESC);

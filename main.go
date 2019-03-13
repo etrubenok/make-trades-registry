@@ -121,7 +121,6 @@ func main() {
 	cluster := gocql.NewCluster("do-trade-scylla-scylladb-0.do-trade-scylla-scylladb",
 		"do-trade-scylla-scylladb-1.do-trade-scylla-scylladb",
 		"do-trade-scylla-scylladb-2.do-trade-scylla-scylladb")
-	cluster.Keyspace = "maketrades"
 	cluster.Consistency = gocql.Quorum
 	cluster.RetryPolicy = &gocql.ExponentialBackoffRetryPolicy{
 		NumRetries: 10,

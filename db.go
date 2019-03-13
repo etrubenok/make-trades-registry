@@ -43,7 +43,7 @@ func (d *DBImporterImpl) SaveSymbolsSnapshots(snapshots *types.ExchangesSymbols)
 
 // SaveSymbols saves the symbols for one exchange
 func (d *DBImporterImpl) SaveSymbols(exchangeSymbols *types.ExchangeSymbols) error {
-	stmt, names := qb.Insert("maketrades.symbols_snapshots").Columns("year",
+	stmt, names := qb.Insert("maketrades2.symbols_snapshots").Columns("year",
 		"month",
 		"day",
 		"exchange_id",
@@ -110,7 +110,7 @@ func (l *DBLoaderImpl) LoadSymbolsSnapshots(exchangeIDs []int, getDate func() (i
 // LoadSymbols loads the latest snapshot of symbols for a given exchnage from DB
 func (l *DBLoaderImpl) LoadSymbols(year, month, day, exchangeID int) (*types.ExchangeSymbols, error) {
 	var symbols types.ExchangeSymbols
-	stmt, names := qb.Select("maketrades.symbols_snapshots").Where(qb.Eq("year"), qb.Eq("month"), qb.Eq("day"), qb.Eq("exchange_id")).OrderBy("snapshot_time", qb.DESC).Limit(1).ToCql()
+	stmt, names := qb.Select("maketrades2.symbols_snapshots").Where(qb.Eq("year"), qb.Eq("month"), qb.Eq("day"), qb.Eq("exchange_id")).OrderBy("snapshot_time", qb.DESC).Limit(1).ToCql()
 	q := gocqlx.Query(session.Query(stmt), names).BindMap(qb.M{
 		"year": year, "month": month, "day": day, "exchange_id": exchangeID,
 	})
