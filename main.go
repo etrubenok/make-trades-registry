@@ -44,7 +44,6 @@ func GetYearMonthDay(yyyymmddDate string) (int, int, int, error) {
 
 // GetSymbolsSnapshot gets symbols snapshot on a date
 func GetSymbolsSnapshot(exchanges []string, getDate func() (int, int, int, error)) (*types.APIExchangesSymbols, error) {
-
 	exchnageIDs := make([]int, 0)
 	for _, e := range exchanges {
 		exchangeID, err := registry.GetExchangeID(e)
@@ -54,14 +53,26 @@ func GetSymbolsSnapshot(exchanges []string, getDate func() (int, int, int, error
 		}
 		exchnageIDs = append(exchnageIDs, exchangeID)
 	}
-	l := NewDBLoader(session)
-	exchangesSymbols, err := l.LoadSymbolsSnapshots(exchnageIDs, getDate)
 
+	fetcher := fetchers.NewBitfinexFetcher()
+	exchangeSymbols, err := fetcher.FetchSymbols()
 	if err != nil {
 		glog.Errorf("GetLatestSymbolsSnapshot: LoadSymbolsSnapshots failed to load the symbols for exchnages %v due to error %s", exchanges, err)
 		return nil, err
 	}
-	resp, err := types.ConvertExchangeSymbolsToAPIResponse(exchangesSymbols)
+
+	exchangesSymbols := types.ExchangesSymbols{
+		Exchanges: make([]types.ExchangeSymbols, 1)}
+	exchangesSymbols.Exchanges[0] = *exchangeSymbols
+
+	// l := NewDBLoader(session)
+	// exchangesSymbols, err := l.LoadSymbolsSnapshots(exchnageIDs, getDate)
+
+	// if err != nil {
+	// 	glog.Errorf("GetLatestSymbolsSnapshot: LoadSymbolsSnapshots failed to load the symbols for exchnages %v due to error %s", exchanges, err)
+	// 	return nil, err
+	// }
+	resp, err := types.ConvertExchangeSymbolsToAPIResponse(&exchangesSymbols)
 	if err != nil {
 		glog.Errorf("ConvertExchangeSymbolsToAPIResponse: cannot convert to API response due to error %s", err)
 		return nil, err
@@ -117,44 +128,6 @@ func getSymbols(c *gin.Context) {
 
 func main() {
 	flag.Parse()
-
-	cluster := gocql.NewCluster("do-trade-scylla-scylladb-0.do-trade-scylla-scylladb",
-		"do-trade-scylla-scylladb-1.do-trade-scylla-scylladb",
-		"do-trade-scylla-scylladb-2.do-trade-scylla-scylladb")
-	cluster.Consistency = gocql.Quorum
-	cluster.RetryPolicy = &gocql.ExponentialBackoffRetryPolicy{
-		NumRetries: 10,
-		Min:        10 * time.Millisecond,
-		Max:        2 * time.Second}
-
-	var err error
-	session, err = cluster.CreateSession()
-	if err != nil {
-		glog.Errorf("main: cannot create a session to the DB due to error %s", err)
-		panic(err)
-	}
-	defer session.Close()
-
-	snapshots := make(chan types.ExchangesSymbols)
-	job := fetchers.NewFetchJob()
-	job.Init(exchanges, snapshots)
-
-	importer := NewDBImporter(session)
-	go func() {
-		for {
-			s := <-snapshots
-			glog.Infof("main: snapshot 'binance' symbols number %d", len(s.Exchanges[0].Symbols))
-			if len(s.Exchanges) == 0 {
-				glog.Errorf("main: snapshot is empty")
-			} else {
-				err := importer.SaveSymbolsSnapshots(&s)
-				if err != nil {
-					glog.Errorf("main: cannot import snapshots for %d exchange(s) into the database due to error %s", len(s.Exchanges), err)
-					panic(err)
-				}
-			}
-		}
-	}()
 
 	gin.SetMode(gin.ReleaseMode)
 
